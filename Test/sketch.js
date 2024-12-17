@@ -3,7 +3,11 @@ async function printGridFromDoc(url) {
     const proxyUrl = "https://api.allorigins.win/get?url=";
     const targetUrl = url;
     // "https://docs.google.com/document/d/e/2PACX-1vQGUck9HIFCyezsrBSnmENk5ieJuYwpt7YHYEzeNJkIb9OSDdx-ov2nRNReKQyey-cwJOoEKUhLmN9z/pub";
+
     const response = await fetch(proxyUrl + encodeURIComponent(targetUrl));
+
+    //const response = await fetch(url,{mode:'no-cors''});
+
     // Check if response is OK
     if (!response.ok) {
       throw new Error("Network response was not ok");
@@ -63,13 +67,42 @@ async function printGridFromDoc(url) {
 
     for (const row of grid) {
       console.log(row.join(""));
+      stroke(255);
     }
+
+    return parsedData;
   } catch (error) {
     console.error("Error fetching or processing the document:", error);
+    return null;
   }
 }
 
 // Call the function with the provided URL
-printGridFromDoc(
-  "https://docs.google.com/document/d/e/2PACX-1vQGUck9HIFCyezsrBSnmENk5ieJuYwpt7YHYEzeNJkIb9OSDdx-ov2nRNReKQyey-cwJOoEKUhLmN9z/pub"
-);
+let drawData = null;
+
+async function setup() {
+  createCanvas(600, 600);
+  drawData = await printGridFromDoc(
+    "https://docs.google.com/document/d/e/2PACX-1vQGUck9HIFCyezsrBSnmENk5ieJuYwpt7YHYEzeNJkIb9OSDdx-ov2nRNReKQyey-cwJOoEKUhLmN9z/pub"
+  );
+}
+async function draw() {
+  background(0);
+  stroke(255);
+  if (drawData) {
+    strokeWeight(8);
+
+    const maxX = Math.max(...drawData.map((item) => item.xCoordinate));
+    const maxY = Math.max(...drawData.map((item) => item.yCoordinate));
+
+    drawData.forEach((element) => {
+      let x = map(element.xCoordinate, 0, maxX, 10, width - 10);
+
+      let y = map(element.yCoordinate, maxY, 0, height / 6 - 10, 10);
+      //console.log("x->,y ", x, element.xCoordinate, y, element.yCoordinate);
+      fill("yellow");
+      textSize(1);
+      text(element.character, x, y);
+    });
+  }
+}

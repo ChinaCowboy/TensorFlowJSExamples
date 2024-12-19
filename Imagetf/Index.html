@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>linear regression with tensorflow</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.4.1/lib/p5.min.js"></script>
+    <h1>Look at random stuff</h1>
+    <canvas id="randomness"></canvas>
+    <script src="tensorToImage.js"></script>
+
+    <h1>Image to tensors</h1>
+    <!-- <img
+      id="domImage"
+      src="file:///Users/nb6/Git/TensorFlowJSExamples/Imagetf/angry-cat.jpg"
+    /> -->
+    <img id="domImage" crossorigin="anonymous" src="cats.jpg" />
+    <h1>Flip the image by tf tensor</h1>
+    <canvas id="cats"></canvas>
+    <script src="imageToTensors.js"></script>
+
+    <h1>Resize the image by tf tensor Nearest Neighbor</h1>
+    <canvas id="cats-s"></canvas>
+    <h1>Resize the image by tf tensor BiLiear</h1>
+    <canvas id="cats-l"></canvas>
+    <h1>Crop and Resize slice</h1>
+    <canvas id="cats-c"></canvas>
+
+    <script src="imageResize.js"></script>
+  </head>
+  <body></body>
+</html>
